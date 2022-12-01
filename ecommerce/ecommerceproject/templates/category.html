@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+       {% if category %}
+       {{category.desc | truncatewords:150}}
+       {% else %}
+        welcome to ABC Shop
+        {% endif %}
+{% endblock %}
+{% block title %}
+       {% if category %}
+       {{category.name}}-ABC collection
+        {% endif %}
+{% endblock %}
+{% block content %}
+        {% if category %}
+
+        <div class="row myrowclass">
+            <div class="mx-auto">
+        <p class="text-center" style="text-decoration:none;letter-spacing: .2em; color:brown;font-size:20px;text-transform: uppercase;">Our Product Collection</p>
+            </div>
+        </div>
+        {% endif %}
+        {% if category %}
+       <div class="imagestyle text-center" style="padding-top:20px;padding-bottom:20px;">
+
+           <img style="border:5px double black;" class="float-left rounded" src="{{category.image.url}}" alt="{{category.name}}" width="300" height="250">
+       </div>
+        <div>
+            <h1 class="text-center mytitle" style="text-decoration:none;letter-spacing: .2em; color:brown;font-size:20px;text-transform: uppercase;">{{category.name}}</h1>
+            <p class="text-justify text-center">{{category.desc}}</p>
+        </div>
+        {% else %}
+        <div class="bannerimg">
+            <img src="{% static 'Images/bakerybanner.png' %}" alt="our products" height="auto" width="1113">
+            </div>
+<br>
+        <div>
+            <h1 class="text-center" style="color:brown;font-size:19px;text-transform: uppercase;letter-spacing: .2em;" >our product collections</h1>
+            <p class="text-justify" >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        {% endif %}
+<div class="container">
+        <div class="row mx-auto">
+            {% for products in product.object_list %}
+            <div class="myrowclass col-9 col-sm-12 col-md-4 col-lg-4">
+                <div class="card text-center" style="min-width:18rem;">
+                <div class="mybottommargin">
+
+           <a href="{{products.get_url}}"><img class="card-img" src="{{products.image.url}}" alt="{{products.name}}" height="300" width="300"></a>
+
+
+        <div class="cardbody">
+            <h4>{{products.name}}</h4>
+            <p>${{products.price}}</p>
+ </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        </div>
+    <div class="mx-auto">
+        {% if product.paginator.num_pages > 1 %}
+
+        <div class="text-center">
+            {% for pg in product.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm" {% if product.number == pg %} active  {% endif %}>{{pg}}</a>
+       {% endfor %}
+        </div>
+         {% endif %}
+
+    </div>
+    </div>
+
+{% endblock %}
+
+
+
